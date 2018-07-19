@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import Realm
 
 class Item : Object {
     @objc dynamic var title : String = ""

@@ -8,8 +8,10 @@
 
 import UIKit
 import RealmSwift
+import Realm
+import ChameleonFramework
 
-class ToDoListViewController: UITableViewController {
+class ToDoListViewController: SwipeTableViewController {
 
     @IBOutlet var toDoListTableView: UITableView!
     
@@ -24,6 +26,8 @@ class ToDoListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.separatorStyle = .none
     }
 
     //MARK: - Tableview Datasource Methods
@@ -32,16 +36,20 @@ class ToDoListViewController: UITableViewController {
         return todoItems?.count ?? 1
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         if let item = todoItems?[indexPath.row] {
-        
-        cell.tintColor = UIColor.black
-        
-        cell.textLabel?.text = item.title
+            
+            let categoryColor = UIColor(hexString: selectedCategory!.color)
+            
+            cell.textLabel?.text = item.title
+            
+            if let colour = categoryColor?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(todoItems!.count)) {
+                cell.backgroundColor = colour
+                cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
+            }
         
         cell.accessoryType = item.done ? .checkmark : .none
         } else {
@@ -107,15 +115,27 @@ class ToDoListViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    //MARK: - Model Manipulation Methods
+//MARK: - Model Manipulation Methods
     
     func loadItems() {
         todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
 
             tableView.reloadData()
- 
+    }
+    
+    override func updateModel(at indexPath: IndexPath) {
+        if let itemForDeletion = self.todoItems?[indexPath.row] {
+            do {
+                try self.realm.write {
+                    self.realm.delete(itemForDeletion)
+                }
+            } catch {
+                print ("Error deleting item, \(error)")
+            }
+        }
     }
 }
+
 
 //MARK: - Search bar methods
     
