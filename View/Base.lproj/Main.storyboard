@@ -82,13 +82,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Items" id="hHG-cc-QTy">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="etx-sp-84B">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="tz1-6L-33b" id="M1X-6c-6TA"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchBar" destination="XSV-em-Ct9" id="lhl-Q6-6fk"/>
                         <outlet property="toDoListTableView" destination="0q5-9l-1h0" id="q37-JM-z01"/>
                     </connections>
                 </tableViewController>
@@ -101,8 +101,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="t1e-vH-Sod" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="O6I-rf-ya6">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="O6I-rf-ya6">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.5370826255047938" green="0.54660909599112373" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">

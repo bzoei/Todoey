@@ -27,6 +27,10 @@ class CategoryViewController: SwipeTableViewController {
         tableView.separatorStyle = .none
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.barTintColor = UIColor(hexString: "1D9BF6")
+    }
+    
     //MARK: - TableView Datasource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -34,7 +38,7 @@ class CategoryViewController: SwipeTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
             if let category = categories?[indexPath.row] {
@@ -42,7 +46,7 @@ class CategoryViewController: SwipeTableViewController {
                 cell.textLabel!.text = category.name
                 cell.backgroundColor = UIColor(hex: category.color)
                 cell.textLabel?.textColor = ContrastColorOf(cell.backgroundColor!, returnFlat: true)
-
+                
             } else {
                 categories?[indexPath[0]].name = "No categories added yet"
                 categories?[indexPath.row].color = "1D9BF6"
@@ -62,6 +66,12 @@ class CategoryViewController: SwipeTableViewController {
         
         if let indexPath = tableView.indexPathForSelectedRow {
             destinationVC.selectedCategory = categories?[indexPath.row]
+            
+                    // deselect the selected row if any
+            let selectedRow: IndexPath? = tableView.indexPathForSelectedRow
+            if let selectedRowNotNill = selectedRow {
+                tableView.deselectRow(at: selectedRowNotNill, animated: false)
+            }
         }
     }
     
